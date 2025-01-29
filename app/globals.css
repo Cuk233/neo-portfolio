@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --main: #ff6b6b; /* Vibrant Coral Red */
+    --secondary: #4ecdc4; /* Retro Turquoise */
+    --accent: #ffe66d; /* Sunny Yellow */
+
+    /* Background Colors */
+    --bg: #f7f5fb; /* Light Base */
+    --bw: #ffffff;
+    --blank: #000000;
+
+    /* Border and Text */
+    --border: #000000;
+    --text: #2f2235; /* Deep Purple-Black */
+    --mtext: #ffffff; /* Text on colored backgrounds */
+    --ring: #000000;
+    --ring-offset: #ffffff;
+
+    /* Overlay */
+    --overlay: rgba(0, 0, 0, 0.8);
+
+    /* Neobrutalism Specific */
+    --border-radius: 5px;
+    --box-shadow-x: 4px;
+    --box-shadow-y: 4px;
+    --reverse-box-shadow-x: -4px;
+    --reverse-box-shadow-y: -4px;
+    --base-font-weight: 500;
+    --heading-font-weight: 700;
+
+    --shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--border);
+  }
+
+  .dark {
+    --bg: #2f2235;
+    --bw: #1a1a1a;
+    --blank: #ffffff;
+    --border: #ffffff;
+    --text: #f7f5fb;
+    --mtext: #2f2235;
+    --ring: #ffffff;
+    --ring-offset: #000000;
+
+    --shadow: var(--box-shadow-x) var(--box-shadow-y) 0px 0px var(--border);
+  }
+}
+
+@layer utilities {
+  .box-shadow-x {
+    --box-shadow-x: 4px;
+  }
+  .box-shadow-y {
+    --box-shadow-y: 4px;
+  }
+  .reverse-box-shadow-x {
+    --reverse-box-shadow-x: -4px;
+  }
+  .reverse-box-shadow-y {
+    --reverse-box-shadow-y: -4px;
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Neobrutalism Base Styles */
+.neo-brutalism {
+  border: 2px solid var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.neo-brutalism:hover {
+  transform: translate(
+    var(--reverse-box-shadow-x),
+    var(--reverse-box-shadow-y)
+  );
+  box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0 0 var(--border);
+}
+
+.neo-brutalism:active {
+  transform: translate(var(--box-shadow-x), var(--box-shadow-y));
+  box-shadow: none;
+}
+
+/* Custom Component Styles */
+.button-hover {
+  @apply hover:-translate-y-0.5 hover:translate-x-0.5 active:translate-y-0.5 active:translate-x-0.5 transition-transform;
+}
