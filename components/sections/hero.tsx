@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export function HeroSection() {
   return (
-    <section id="hero" className="min-h-screen pt-20 px-4 bg-bg">
+    <section id="hero" className="min-h-screen pt-20 px-4 bg-bg overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-20">
         {/* Left side - Text content */}
         <div className="space-y-6">
@@ -36,8 +36,13 @@ export function HeroSection() {
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="absolute right-4 top-4 transform hover:scale-105 transition-all duration-300"
+            className="absolute right-4 top-4 cursor-grab active:cursor-grabbing z-10"
             style={{ rotate: "3deg" }}
+            drag
+            dragElastic={0.3}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 10 }}
+            whileDrag={{ scale: 1.05, zIndex: 20, rotate: 0 }}
+            whileTap={{ cursor: "grabbing" }}
           >
             <Card className="w-64 bg-[#FFE66D] border-2 border-[#2A2A2A] shadow-brutal">
               <CardHeader className="p-4">
@@ -53,8 +58,13 @@ export function HeroSection() {
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="absolute right-20 top-[160px] transform hover:scale-105 transition-all duration-300"
+            className="absolute right-20 top-[160px] cursor-grab active:cursor-grabbing z-10"
             style={{ rotate: "-3deg" }}
+            drag
+            dragElastic={0.3}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 10 }}
+            whileDrag={{ scale: 1.05, zIndex: 20, rotate: 0 }}
+            whileTap={{ cursor: "grabbing" }}
           >
             <Card className="w-64 bg-[#4ECDC4] border-2 border-[#2A2A2A] shadow-brutal">
               <CardHeader className="p-4">
@@ -70,8 +80,13 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="absolute right-8 top-[320px] transform hover:scale-105 transition-all duration-300"
+            className="absolute right-8 top-[320px] cursor-grab active:cursor-grabbing z-10"
             style={{ rotate: "2deg" }}
+            drag
+            dragElastic={0.3}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 10 }}
+            whileDrag={{ scale: 1.05, zIndex: 20, rotate: 0 }}
+            whileTap={{ cursor: "grabbing" }}
           >
             <Card className="w-64 bg-[#FF6B6B] border-2 border-[#2A2A2A] shadow-brutal">
               <CardHeader className="p-4">
