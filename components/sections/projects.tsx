@@ -9,7 +9,6 @@ interface Project {
   description: string;
   technologies: string[];
   color: string;
-  link: string;
 }
 
 export function ProjectsSection() {
@@ -19,21 +18,18 @@ export function ProjectsSection() {
       description: "Developed and maintained web applications using React.js and Next.js, implementing responsive designs and modern UI components. Collaborated with backend team for API integration.",
       technologies: ["React.js", "Next.js", "TypeScript", "Redux", "Zustand", ],
       color: "#FF6B6B",
-      link: "#"
     },
     {
       title: "Digital Wallet",
       description: "Maintained back-office web app to run smoothly and fix bugs. Create a new feature to close user account and add a new feature to bulk add user balance.",
       technologies: ["Vue.js", "Nuxt.js", "Javascript"],
       color: "#4ECDC4",
-      link: ""
     },
     {
       title: "Travel Landing Page",
       description: "A travel landing page with a modern design and smooth animations. Features include a headless CMS using Sanity, a services section with animated icons, and a footer with social media links.",
       technologies: ["Next.js", "TypeScript", "TailwindCSS", "Sanity"],
       color: "#FFE66D",
-      link: "https://duplicate-project.vercel.app/"
     }
   ];
 
@@ -42,9 +38,6 @@ export function ProjectsSection() {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-4xl font-heading text-[#2A2A2A]">Featured Projects</h2>
-          <Button className="bg-[#FF6B6B] text-[#2A2A2A] font-bold hover:opacity-90">
-            View All Projects
-          </Button>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -56,7 +49,6 @@ export function ProjectsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <a href={project.link} target="_blank" rel="noopener noreferrer">
                 <Card className="h-full border-2 border-[#2A2A2A] hover:-translate-y-2 transition-transform duration-300">
                   <div className="h-2" style={{ backgroundColor: project.color }} />
                   <CardHeader>
@@ -76,7 +68,6 @@ export function ProjectsSection() {
                     </div>
                   </CardContent>
                 </Card>
-              </a>
             </motion.div>
           ))}
         </div>
