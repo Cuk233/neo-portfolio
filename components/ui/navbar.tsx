@@ -23,7 +23,7 @@ export function Navbar() {
             className="bg-[#4ECDC4] text-[#2A2A2A] font-bold hover:opacity-90"
             onClick={() => scrollToSection("about")}
           >
-            About
+            Skills
           </Button>
           <Button
             variant="default"

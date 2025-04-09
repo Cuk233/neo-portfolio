@@ -22,10 +22,10 @@ export function HeroSection() {
           </p>
           <div className="flex gap-4">
             <Button variant="default" size="lg" className="bg-[#FF6B6B] text-[#2A2A2A] font-bold hover:opacity-90">
-              View Projects
+              <a href="https://github.com/Cuk233" target="_blank" rel="noopener noreferrer">View Github</a>
             </Button>
-            <Button variant="default" size="lg" className="bg-[#4ECDC4] text-[#2A2A2A] font-bold hover:opacity-90">
-              Resume
+            <Button variant="default" size="lg" className="bg-[#4ECDC4] text-[#2A2A2A] font-bold hover:opacity-90" asChild>
+              <a href="/CV-MuhammadZakkiMardhi_2024.pdf" download>Resume</a>
             </Button>
           </div>
         </div>
