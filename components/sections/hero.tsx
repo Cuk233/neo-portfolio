@@ -18,7 +18,7 @@ export function HeroSection() {
             Frontend Developer
           </h1>
           <p className="text-xl text-[#2A2A2A]/80">
-            Passionate about creating beautiful web experiences with React, Next.js, and modern technologies
+            Passionate about creating beautiful web experiences with React, Next.js, and modern technologies. I specialize in building responsive, user-friendly applications with clean code and intuitive interfaces.
           </p>
           <div className="flex gap-4">
             <Button variant="default" size="lg" className="bg-[#FF6B6B] text-[#2A2A2A] font-bold hover:opacity-90">
@@ -32,11 +32,12 @@ export function HeroSection() {
 
         {/* Right side - Featured cards */}
         <div className="relative h-[500px] w-full">
+          <p className="absolute top-0 right-0 text-sm text-[#2A2A2A]/70 italic">Drag the cards to interact!</p>
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-              className="absolute right-4 top-4 cursor-grab active:cursor-grabbing z-10"
+              className="absolute right-4 top-8 cursor-grab active:cursor-grabbing z-10"
               style={{ rotate: "3deg" }}
             drag
               dragElastic={0.3}

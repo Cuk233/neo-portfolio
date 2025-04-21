@@ -13,17 +13,17 @@ export function SkillsSection() {
   const skills: Skill[] = [
     {
       name: "Frontend Development",
-      items: ["React.js", "Next.js", "TypeScript", "TailwindCSS", "HTML/CSS", "Redux", "Zustand", "Axios","Ant Design"],
+      items: ["React.js", "Next.js", "TypeScript", "TailwindCSS", "HTML/CSS", "Redux", "Zustand", "Axios", "Ant Design", "Vue.js", "Nuxt.js", "Material UI"],
       color: "bg-[#FF6B6B]"
     },
     {
       name: "Backend Development",
-      items: ["Node.js", "Express", "MySQL", "REST API"],
+      items: ["Node.js", "Express", "MySQL", "REST API", "PHP", "CodeIgniter"],
       color: "bg-[#4ECDC4]"
     },
     {
       name: "Tools & Others",
-      items: ["Git", "Docker", "Vercel", "Figma", "VS Code", "Postman","Sanity"],
+      items: ["Git", "Docker", "Vercel", "Figma", "VS Code", "Postman", "Sanity", "Chart.js"],
       color: "bg-[#FFE66D]"
     }
   ];

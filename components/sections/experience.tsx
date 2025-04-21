@@ -33,7 +33,7 @@ export function ExperienceSection() {
         "Troubleshoot technical issues related to front end development, ensuring prompt resolution to maintain project timelines",
         "Engage in code reviews and continuous learning to enhance development skills"
       ],
-      technologies: ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "Zustand"],
+      technologies: ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "Zustand", "Ant Design"],
       color: "#FF6B6B"
     },
     {
@@ -43,9 +43,12 @@ export function ExperienceSection() {
       description: [
         "Built full-stack applications using React.Js, Express.js and MySQL",
         "Developed RESTful APIs and database schemas",
-        "Implemented authentication and authorization"
+        "Implemented authentication and authorization",
+        "Created responsive user interfaces with modern design principles",
+        "Collaborated with team members to deliver high-quality applications",
+        "Participated in code reviews and implemented feedback"
       ],
-      technologies: ["MySQL", "Express.js", "React.js", "Node.js"],
+      technologies: ["MySQL", "Express.js", "React.js", "Node.js", "REST API"],
       color: "#4ECDC4"
     },
     {
@@ -56,11 +59,13 @@ export function ExperienceSection() {
         "Created CRUD system using PHP and CodeIgniter",
         "Experimented with API using Postman",
         "Implemented data integration from REST API to CodeIgniter",
-        "Completed internship project with focus on backend development"
+        "Completed internship project with focus on backend development",
+        "Collaborated with team members to understand business requirements",
+        "Documented code and processes for future reference"
       ],
       technologies: ["PHP", "CodeIgniter", "MySQL", "REST API", "Postman"],
       color: "#FFE66D"
-    }
+    },
   ];
 
   return (
@@ -69,6 +74,7 @@ export function ExperienceSection() {
         <h2 className="text-4xl font-heading text-[#2A2A2A] mb-12 text-center">
           Work Experience
         </h2>
+        <p className="text-center text-[#2A2A2A]/70 mb-8 italic">Click on any card to see more details</p>
         <div className="relative">
           {/* Timeline line */}
           <div className="absolute left-0 md:left-1/2 h-full w-0.5 bg-[#2A2A2A] transform -translate-x-1/2" />
@@ -98,7 +104,7 @@ export function ExperienceSection() {
 
                 {/* Content card */}
                 <motion.div
-                  className={`p-6 bg-white border-2 border-[#2A2A2A] rounded-base shadow-brutal cursor-pointer overflow-hidden`}
+                  className={`p-6 bg-white border-2 border-[#2A2A2A] rounded-base shadow-brutal cursor-pointer overflow-hidden hover:scale-[1.02] transition-transform`}
                   style={{ 
                     backgroundColor: activeIndex === index ? exp.color : 'white',
                     transition: 'background-color 0.3s ease'
