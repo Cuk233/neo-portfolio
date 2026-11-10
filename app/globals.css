@@ -65,46 +65,20 @@
   }
 }
 
-@keyframes accordion-down {
-  from {
-    height: 0;
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  to {
-    height: var(--radix-accordion-content-height);
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-@keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
-}
-
-/* Neobrutalism Base Styles */
-.neo-brutalism {
-  border: 2px solid var(--border);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  transition: all 0.2s ease;
-}
-
-.neo-brutalism:hover {
-  transform: translate(
-    var(--reverse-box-shadow-x),
-    var(--reverse-box-shadow-y)
-  );
-  box-shadow: var(--box-shadow-x) var(--box-shadow-y) 0 0 var(--border);
-}
-
-.neo-brutalism:active {
-  transform: translate(var(--box-shadow-x), var(--box-shadow-y));
-  box-shadow: none;
-}
-
-/* Custom Component Styles */
-.button-hover {
-  @apply hover:-translate-y-0.5 hover:translate-x-0.5 active:translate-y-0.5 active:translate-x-0.5 transition-transform;
 }

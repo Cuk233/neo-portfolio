@@ -21,13 +21,22 @@ export default {
 		ring: 'var(--ring)',
 		ringOffset: 'var(--ring-offset)',
 		
-		secondaryBlack: '#212121', 
+		secondaryBlack: '#212121',
+		coral: '#FF6B6B',
+		teal: '#4ECDC4',
+		sunny: '#FFE66D',
+		sea: '#4DA1A9',
+		lilac: '#B8A9FF',
+		ink: '#2A2A2A',
 	  },
 	  borderRadius: {
 		base: '5px'
 	  },
 	  boxShadow: {
-		shadow: 'var(--shadow)'
+		shadow: 'var(--shadow)',
+		brutal: '4px 4px 0px 0px #2A2A2A',
+		'brutal-sm': '2px 2px 0px 0px #2A2A2A',
+		'brutal-lg': '8px 8px 0px 0px #2A2A2A',
 	  },
 	  translate: {
 		boxShadowX: '4px',
@@ -40,8 +49,19 @@ export default {
 		heading: '700',
 	  },
 	  animation: {
-		'accordion-down': 'accordion-down 0.2s ease-out',
-		'accordion-up': 'accordion-up 0.2s ease-out',
+		marquee: 'marquee 30s linear infinite',
+		wiggle: 'wiggle 0.4s ease-in-out',
+	  },
+	  keyframes: {
+		marquee: {
+		  from: { transform: 'translateX(0)' },
+		  to: { transform: 'translateX(-50%)' },
+		},
+		wiggle: {
+		  '0%, 100%': { transform: 'rotate(0deg)' },
+		  '25%': { transform: 'rotate(-3deg)' },
+		  '75%': { transform: 'rotate(3deg)' },
+		},
 	  },
 	},
   },

@@ -1,187 +1,136 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { experiences } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
-interface Experience {
-  title: string;
-  company: string;
-  period: string;
-  description: string[];
-  technologies: string[];
-  color: string;
-}
+const INITIAL_BULLETS = 3;
 
 export function ExperienceSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState<Record<number, boolean>>({ 0: true });
 
-  const experiences: Experience[] = [
-    {
-      title: "Frontend Developer",
-      company: "Infosys Solusi Terpadu",
-      period: "2023 - Present",
-      description: [
-        "Creating website components using React.js and Next.js",
-        "Collaborate with team members to create fully functional and user-friendly website",
-        "Integrate APIs from back end using Axios",
-        "Ensure website's performance and responsiveness",
-        "Implement form handling and data submission features",
-        "Manage state and data flow within application",
-        "Maintain code quality and address bugs efficiently",
-        "Optimize components for maximum performance across different devices and browsers",
-        "Utilize CSS for layout design and styling",
-        "Troubleshoot technical issues related to front end development, ensuring prompt resolution to maintain project timelines",
-        "Engage in code reviews and continuous learning to enhance development skills"
-      ],
-      technologies: ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "Zustand", "Ant Design"],
-      color: "#FF6B6B"
-    },
-    {
-      title: "Full Stack Developer",
-      company: "Purwadhika Digital Technology School",
-      period: "2023",
-      description: [
-        "Built full-stack applications using React.Js, Express.js and MySQL",
-        "Developed RESTful APIs and database schemas",
-        "Implemented authentication and authorization",
-        "Created responsive user interfaces with modern design principles",
-        "Collaborated with team members to deliver high-quality applications",
-        "Participated in code reviews and implemented feedback"
-      ],
-      technologies: ["MySQL", "Express.js", "React.js", "Node.js", "REST API"],
-      color: "#4ECDC4"
-    },
-    {
-      title: "Back-end Developer",
-      company: "GMF AeroAsia",
-      period: "06.2022 - 08.2022",
-      description: [
-        "Created CRUD system using PHP and CodeIgniter",
-        "Experimented with API using Postman",
-        "Implemented data integration from REST API to CodeIgniter",
-        "Completed internship project with focus on backend development",
-        "Collaborated with team members to understand business requirements",
-        "Documented code and processes for future reference"
-      ],
-      technologies: ["PHP", "CodeIgniter", "MySQL", "REST API", "Postman"],
-      color: "#FFE66D"
-    },
-  ];
+  const toggle = (index: number) => {
+    setExpanded((prev) => ({ ...prev, [index]: !prev[index] }));
+  };
 
   return (
-    <section className="py-20 px-4 bg-white">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-heading text-[#2A2A2A] mb-12 text-center">
-          Work Experience
-        </h2>
-        <p className="text-center text-[#2A2A2A]/70 mb-8 italic">Click on any card to see more details</p>
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 h-full w-0.5 bg-[#2A2A2A] transform -translate-x-1/2" />
-          
-          {/* Experience items */}
-          <div className="flex flex-col">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                className={`relative mb-12 ${
-                  index % 2 === 0 ? "md:mr-auto md:pr-8 md:ml-0" : "md:ml-auto md:pl-8 md:mr-0"
-                } w-full md:w-[calc(50%-2rem)]`}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-              >
-                {/* Timeline dot */}
-                <div 
-                  className={`absolute top-0 w-4 h-4 rounded-full border-2 border-[#2A2A2A] bg-white transform -translate-y-1/2
-                    ${index % 2 === 0 ? "right-0 md:translate-x-10" : "left-0 md:-translate-x-10"}`}
-                  style={{ 
-                    backgroundColor: activeIndex === index ? exp.color : 'white',
-                    transition: 'background-color 0.3s ease'
-                  }}
-                />
+    <section id="experience" className="py-20 px-4 bg-white border-y-2 border-ink">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12 space-y-2">
+          <h2 className="text-4xl font-heading text-ink">Work Experience</h2>
+          <p className="text-base font-medium text-ink/80">
+            Building production banking &amp; aviation systems 💼
+          </p>
+        </div>
 
-                {/* Content card */}
+        <div className="relative pl-6 md:pl-0">
+          <div
+            aria-hidden="true"
+            className="absolute left-2 md:left-1/2 top-0 bottom-0 w-0.5 bg-ink md:-translate-x-1/2"
+          />
+
+          <div className="space-y-10">
+            {experiences.map((exp, index) => {
+              const isExpanded = Boolean(expanded[index]);
+              const visibleBullets = isExpanded
+                ? exp.description
+                : exp.description.slice(0, INITIAL_BULLETS);
+              const hiddenCount = exp.description.length - INITIAL_BULLETS;
+
+              return (
                 <motion.div
-                  className={`p-6 bg-white border-2 border-[#2A2A2A] rounded-base shadow-brutal cursor-pointer overflow-hidden hover:scale-[1.02] transition-transform`}
-                  style={{ 
-                    backgroundColor: activeIndex === index ? exp.color : 'white',
-                    transition: 'background-color 0.3s ease'
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                  key={`${exp.company}-${exp.period}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.12 }}
+                  className={cn(
+                    "relative w-full md:w-[calc(50%-2rem)]",
+                    index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
+                  )}
                 >
-                  <h3 className="text-xl font-bold text-[#2A2A2A] mb-1">{exp.title}</h3>
-                  <p className="text-[#2A2A2A] font-medium mb-2">{exp.company}</p>
-                  <p className="text-[#2A2A2A]/80 text-sm mb-4">{exp.period}</p>
-                  
-                  <AnimatePresence>
-                    {activeIndex === index && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ 
-                          opacity: 1, 
-                          height: 'auto',
-                          transition: {
-                            height: {
-                              duration: 0.4,
-                              ease: "easeOut"
-                            },
-                            opacity: {
-                              duration: 0.3,
-                              delay: 0.1
-                            }
-                          }
-                        }}
-                        exit={{ 
-                          opacity: 0,
-                          height: 0,
-                          transition: {
-                            height: {
-                              duration: 0.3,
-                              ease: "easeIn"
-                            },
-                            opacity: {
-                              duration: 0.2
-                            }
-                          }
-                        }}
-                      >
-                        <ul className="list-disc list-inside mb-4 text-[#2A2A2A] space-y-2">
-                          {exp.description.map((item, i) => (
-                            <motion.li
-                              key={i}
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.3, delay: i * 0.1 }}
-                            >
-                              {item}
-                            </motion.li>
-                          ))}
-                        </ul>
-                        <div className="flex flex-wrap gap-2">
-                          {exp.technologies.map((tech, i) => (
-                            <motion.span
-                              key={i}
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.3, delay: i * 0.05 }}
-                              className="px-2 py-1 bg-white/20 border border-[#2A2A2A] rounded-base text-[#2A2A2A] text-sm"
-                            >
-                              {tech}
-                            </motion.span>
-                          ))}
-                        </div>
-                      </motion.div>
+                  <span
+                    aria-hidden="true"
+                    style={{ backgroundColor: exp.color }}
+                    className={cn(
+                      "absolute top-6 h-4 w-4 rounded-full border-2 border-ink",
+                      "-left-[22px]",
+                      index % 2 === 0
+                        ? "md:left-auto md:-right-[40px]"
+                        : "md:-left-[40px]"
                     )}
-                  </AnimatePresence>
+                  />
+
+                  <article className="rounded-base border-2 border-ink bg-bg shadow-brutal overflow-hidden">
+                    <header
+                      style={{ backgroundColor: exp.color }}
+                      className="border-b-2 border-ink p-4 sm:p-5 flex flex-wrap items-start justify-between gap-2"
+                    >
+                      <div>
+                        <h3 className="text-xl font-heading text-ink">
+                          {exp.title}
+                        </h3>
+                        <p className="text-sm font-bold text-ink">
+                          {exp.company} · {exp.type} · {exp.location}
+                        </p>
+                      </div>
+                      <span className="rounded-base border-2 border-ink bg-white px-2.5 py-0.5 text-xs font-heading text-ink shadow-brutal-sm">
+                        {exp.period}
+                      </span>
+                    </header>
+
+                    <div className="p-4 sm:p-5 space-y-4">
+                      <ul className="space-y-2 text-sm text-ink">
+                        {visibleBullets.map((bullet) => (
+                          <li key={bullet} className="flex gap-2">
+                            <span aria-hidden="true" className="font-bold text-coral">
+                              ▸
+                            </span>
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      {hiddenCount > 0 && (
+                        <button
+                          type="button"
+                          aria-expanded={isExpanded}
+                          onClick={() => toggle(index)}
+                          className="inline-flex items-center gap-1.5 rounded-base border-2 border-ink bg-sunny px-3 py-1 text-xs font-heading text-ink shadow-brutal-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink"
+                        >
+                          {isExpanded ? (
+                            <>
+                              Show less <ChevronUp className="h-3.5 w-3.5" />
+                            </>
+                          ) : (
+                            <>
+                              +{hiddenCount} more highlights{" "}
+                              <ChevronDown className="h-3.5 w-3.5" />
+                            </>
+                          )}
+                        </button>
+                      )}
+
+                      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-dashed border-ink/30">
+                        {exp.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="rounded-base border border-ink bg-white px-2 py-0.5 text-xs font-bold text-ink"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
                 </motion.div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}

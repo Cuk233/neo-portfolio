@@ -1,130 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { projects, type Project, type Rarity } from "@/lib/data";
+import { cn } from "@/lib/utils";
+import { ProjectCard, rarityStars } from "./project-card";
+import { ProjectModal } from "./project-modal";
 
-interface Project {
-  title: string;
-  description: string;
-  technologies: string[];
-  color: string;
-  link?: string;
-}
+type Filter = "All" | Rarity;
+
+const filters: Filter[] = ["All", "Enterprise", "Personal", "Side Quest"];
 
 export function ProjectsSection() {
-  const projects: Project[] = [
-    {
-      title: "Virtual Account System",
-      description: "Developed and maintained web applications using React.js and Next.js, implementing responsive designs and modern UI components. Collaborated with backend team for API integration.",
-      technologies: ["React.js", "Next.js", "TypeScript", "Redux", "Zustand", "Ant Design"],
-      color: "#FF6B6B",
-    },
-    {
-      title: "Digital Wallet",
-      description: "Maintained back-office web app to run smoothly and fix bugs. Create a new feature to close user account and add a new feature to bulk add user balance.",
-      technologies: ["Vue.js", "Nuxt.js", "Javascript"],
-      color: "#4ECDC4",
-    },
-    {
-      title: "Cosmetic ingredients website",
-      description: "Built a full-stack index for cosmetic ingredients with product listings, Ingredients safety and explanation for pregnant women, and user authentication. Implemented responsive design backoffice CMS .",
-      technologies: [
-        "Next.js 14",
-        "React 18",
-        "TypeScript",
-        "Material-UI (MUI)",
-        "Emotion",
-        "Supabase",
-        "PostgreSQL",
-        "Node.js",
-        "React Hook Form",
-        "Zod",
-        "React Quill",
-        "Notistack",
-        "Lucide React",
-        "JWT (jsonwebtoken)",
-        "bcryptjs",
-        "Sharp",
-        "Papa Parse",
-        "CSV Parser",
-        "Slugify",
-        "Dayjs",
-        "React Dropzone",
-        "Vercel Analytics",
-        "ESLint",
-        "Prettier",
-        "Google Fonts (Inter, Poppins)",
-      ],
-      color: "#FF6B6B",
-      link: "https://ingredex.vercel.app/"
-    },
-    {
-      title: "Travel Landing Page",
-      description: "A travel landing page with a modern design and smooth animations. Features include a headless CMS using Sanity, a services section with animated icons, and a footer with social media links.",
-      technologies: ["Next.js", "TypeScript", "TailwindCSS", "Sanity"],
-      color: "#FFE66D",
-      link: "https://duplicate-project.vercel.app/"
-    },
-    {
-      title: "Backoffice Website",
-      description: "A backoffice application for managing administrative tasks and data. Features user authentication and role-based access control.",
-      technologies: ["React.js", "Next.js", "Tailwind CSS", "Auth", "Redux", "TypeScript", "Axios"],
-      color: "#4DA1A9",
-      link: "https://backoffice-website.vercel.app/login"
-    },
-  ];
+  const [activeFilter, setActiveFilter] = useState<Filter>("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const visibleProjects =
+    activeFilter === "All"
+      ? projects
+      : projects.filter((p) => p.rarity === activeFilter);
 
   return (
     <section id="projects" className="py-20 px-4 bg-bg">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl font-heading text-[#2A2A2A]">Featured Projects</h2>
+        <div className="text-center mb-8 space-y-2">
+          <h2 className="text-4xl font-heading text-ink">Featured Projects</h2>
+          <p className="text-base font-medium text-ink/80">
+            Collect them all — hover or tap any card to flip 🃏
+          </p>
         </div>
-        <p className="text-center text-[#2A2A2A]/70 mb-8 italic">Hover over cards to see animation</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project: Project, index: number) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="h-full"
-            >
-              <Card className="h-full border-2 border-[#2A2A2A] hover:-translate-y-2 transition-transform duration-300 flex flex-col">
-                <div className="h-2" style={{ backgroundColor: project.color }} />
-                <CardHeader>
-                  <CardTitle className="text-[#2A2A2A]">{project.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow flex flex-col justify-between">
-                  <div>
-                    <p className="text-[#2A2A2A]/80 mb-4">{project.description}</p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.technologies.map((tech: string, techIndex: number) => (
-                        <span
-                          key={techIndex}
-                          className="px-2 py-1 bg-[#2A2A2A]/5 border border-[#2A2A2A] rounded-base text-[#2A2A2A] text-sm"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  {project.link && (
-                    <Button asChild className="mt-auto border border-[#2A2A2A] text-[#2A2A2A] hover:bg-[#2A2A2A]/5">
-                      <a href={project.link} target="_blank" rel="noopener noreferrer">
-                        Visit Project
-                      </a>
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+
+        <div
+          role="group"
+          aria-label="Filter projects by category"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10"
+        >
+          {filters.map((filter) => {
+            const active = activeFilter === filter;
+            const count =
+              filter === "All"
+                ? projects.length
+                : projects.filter((p) => p.rarity === filter).length;
+            return (
+              <button
+                key={filter}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setActiveFilter(filter)}
+                className={cn(
+                  "rounded-base border-2 border-ink px-4 py-1.5 text-xs sm:text-sm font-heading text-ink transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink",
+                  active
+                    ? "bg-coral shadow-none translate-x-[2px] translate-y-[2px]"
+                    : "bg-white shadow-brutal-sm hover:-translate-y-0.5"
+                )}
+              >
+                {filter}{" "}
+                {filter !== "All" && (
+                  <span className="text-ink/70" aria-hidden="true">
+                    {rarityStars[filter]}
+                  </span>
+                )}{" "}
+                <span className="ml-1 rounded-sm border border-ink bg-sunny px-1.5 py-0.2 text-xs">
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
+
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project) => (
+              <motion.div
+                key={project.title}
+                layout
+                initial={{ opacity: 0, scale: 0.94 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.94 }}
+                transition={{ duration: 0.25 }}
+              >
+                <ProjectCard project={project} onOpen={setSelectedProject} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
       </div>
     </section>
   );
-} 
+}

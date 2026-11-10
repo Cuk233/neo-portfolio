@@ -1,10 +1,13 @@
-import { Navbar } from "@/components/ui/navbar";
+import { Navbar } from "@/components/layout/navbar";
 import { HeroSection } from "@/components/sections/hero";
-import { ProjectsSection } from "@/components/sections/projects";
+import { Marquee } from "@/components/fun/marquee";
 import { SkillsSection } from "@/components/sections/skills";
-import { ExperienceSection } from "@/components/sections/experience";
 import { StatsSection } from "@/components/sections/stats";
-import { Footer } from "@/components/ui/footer";
+import { ExperienceSection } from "@/components/sections/experience";
+import { EducationSection } from "@/components/sections/education";
+import { MakerCheckerSection } from "@/components/sections/maker-checker";
+import { ProjectsSection } from "@/components/sections/projects";
+import { Footer } from "@/components/layout/footer";
 
 export default function Home() {
   return (
@@ -12,12 +15,16 @@ export default function Home() {
       <Navbar />
       <main className="min-h-screen">
         <HeroSection />
+        <Marquee />
         <SkillsSection />
         <StatsSection />
         <ExperienceSection />
+        <EducationSection />
+        <MakerCheckerSection />
         <ProjectsSection />
-        <Footer />
+        <Marquee reverse />
       </main>
+      <Footer />
     </>
   );
 }

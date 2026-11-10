@@ -1,77 +1,109 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useRef, useState } from "react";
+import { animate, motion, useInView, useReducedMotion } from "framer-motion";
+import { colors, projects, totalTechnologies, yearsOfExperience } from "@/lib/data";
 
-interface Stat {
+interface StatItem {
   label: string;
   value: number;
   suffix: string;
   color: string;
+  emoji: string;
+}
+
+function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduceMotion = useReducedMotion();
+  const [display, setDisplay] = useState(value);
+
+  useEffect(() => {
+    if (!inView || reduceMotion) {
+      setDisplay(value);
+      return;
+    }
+    setDisplay(0);
+    const controls = animate(0, value, {
+      duration: 1.1,
+      ease: "easeOut",
+      onUpdate: (latest) => setDisplay(Math.round(latest)),
+    });
+    return () => controls.stop();
+  }, [inView, reduceMotion, value]);
+
+  return (
+    <span ref={ref}>
+      {display}
+      {suffix}
+    </span>
+  );
 }
 
 export function StatsSection() {
-  const stats: Stat[] = [
-    {
-      label: "Projects Completed",
-      value: 4,
-      suffix: "",
-      color: "#FF6B6B",
-    },
+  const stats: StatItem[] = [
     {
       label: "Years Experience",
-      value: 1,
+      value: yearsOfExperience(),
       suffix: "+",
-      color: "#4ECDC4",
+      color: colors.teal,
+      emoji: "⚡",
+    },
+    {
+      label: "Projects Shipped",
+      value: projects.length,
+      suffix: "",
+      color: colors.coral,
+      emoji: "🚀",
     },
     {
       label: "Technologies",
-      value: 15,
+      value: totalTechnologies(),
       suffix: "+",
-      color: "#FFE66D",
+      color: colors.yellow,
+      emoji: "🧰",
+    },
+    {
+      label: "Banking Modules (Maker-Checker)",
+      value: 7,
+      suffix: "",
+      color: colors.lilac,
+      emoji: "🏦",
     },
   ];
 
   return (
-    <section className="py-12 px-4 bg-bg">
+    <section aria-label="Career statistics" className="py-12 px-4 bg-bg">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-heading text-[#2A2A2A] mb-4 text-center">
-          My Stats
-        </h2>
-        <p className="text-center text-[#2A2A2A]/70 mb-8 italic">Scroll to see animations</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <motion.div
-              key={index}
+              key={stat.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="rounded-base border-2 border-ink bg-white shadow-brutal overflow-hidden flex flex-col"
             >
-              <Card className="border-2 border-[#2A2A2A] overflow-hidden">
-                <div className="h-2" style={{ backgroundColor: stat.color }} />
-                <CardContent className="p-6 text-center">
-                  <motion.div
-                    className="text-4xl font-bold text-[#2A2A2A] mb-2"
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ 
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
-                      delay: 0.2 + index * 0.1 
-                    }}
-                  >
-                    {stat.value}{stat.suffix}
-                  </motion.div>
-                  <p className="text-[#2A2A2A]/80">{stat.label}</p>
-                </CardContent>
-              </Card>
+              <div
+                className="h-3 border-b-2 border-ink"
+                style={{ backgroundColor: stat.color }}
+              />
+              <div className="p-5 sm:p-6 text-center flex-1 flex flex-col justify-center">
+                <div className="text-3xl sm:text-4xl font-heading text-ink mb-1 flex items-center justify-center gap-2">
+                  <span aria-hidden="true" className="text-2xl">
+                    {stat.emoji}
+                  </span>
+                  <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+                </div>
+                <p className="text-xs sm:text-sm font-bold text-ink/80">
+                  {stat.label}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
-} 
+}
